@@ -20,19 +20,19 @@
 
 package net.majorkernelpanic.streaming.video;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-
-import net.majorkernelpanic.streaming.mp4.MP4Config;
-import net.majorkernelpanic.streaming.rtp.H264Packetizer;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.hardware.Camera.CameraInfo;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
+
+import net.majorkernelpanic.streaming.mp4.MP4Config;
+import net.majorkernelpanic.streaming.rtp.H264Packetizer;
+
+import java.io.IOException;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A class for streaming H.264 from the camera of an android device using RTP. 
@@ -129,15 +129,17 @@ public class H264Stream extends VideoStream {
 		mMediaRecorder = new MediaRecorder();
 		mMediaRecorder.setCamera(mCamera);
 		mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+//        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
 		mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-		mMediaRecorder.setMaxDuration(1000);
 		//mMediaRecorder.setMaxFileSize(Integer.MAX_VALUE);
 		mMediaRecorder.setVideoEncoder(mVideoEncoder);
 		mMediaRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
 		mMediaRecorder.setVideoSize(mQuality.resX,mQuality.resY);
 		mMediaRecorder.setVideoFrameRate(mQuality.framerate);
 		mMediaRecorder.setVideoEncodingBitRate(mQuality.bitrate);
-		mMediaRecorder.setOutputFile(TESTFILE);
+
+        mMediaRecorder.setMaxDuration(1000);
+        mMediaRecorder.setOutputFile(TESTFILE);
 
 		// We wait a little and stop recording
 		mMediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
@@ -180,8 +182,8 @@ public class H264Stream extends VideoStream {
 		MP4Config config = new MP4Config(TESTFILE);
 
 		// Delete dummy video
-		File file = new File(TESTFILE);
-		if (!file.delete()) Log.e(TAG,"Temp file could not be erased");
+//		File file = new File(TESTFILE);
+//		if (!file.delete()) Log.e(TAG,"Temp file could not be erased");
 
 		// Restore flash state
 		mFlashState = savedFlashState;

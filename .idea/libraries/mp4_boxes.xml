@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="mp4-boxes">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/mp4parser-read-only/isoparser/src/main/java/com/googlecode/mp4parser/boxes/mp4-boxes.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

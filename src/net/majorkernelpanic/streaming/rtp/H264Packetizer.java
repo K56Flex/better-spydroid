@@ -20,9 +20,9 @@
 
 package net.majorkernelpanic.streaming.rtp;
 
-import java.io.IOException;
-
 import android.util.Log;
+
+import java.io.IOException;
 
 /**
  * 
@@ -119,6 +119,7 @@ public class H264Packetizer extends AbstractPacketizer implements Runnable {
 	 * Reads a NAL unit in the FIFO and sends it.
 	 * If it is too big, we split it in FU-A units (RFC 3984).
 	 */
+    int counter = 1;
 	private void send() throws IOException, InterruptedException {
 		int sum = 1, len = 0, type;
 		byte[] header = new byte[5];
@@ -128,7 +129,13 @@ public class H264Packetizer extends AbstractPacketizer implements Runnable {
 		naluLength = header[3]&0xFF | (header[2]&0xFF)<<8 | (header[1]&0xFF)<<16 | (header[0]&0xFF)<<24;
 		//naluLength = is.available();
 
-		if (naluLength>100000 || naluLength<0) resync();
+        if (naluLength>100000 || naluLength< 0) {
+//            Log.e("packetizer", "resyncing cause nalu = " + naluLength);
+            resync();
+        }
+        else {
+//            Log.e("packetizer", "not resyncing " + naluLength);
+        }
 
 		// Parses the NAL unit type
 		type = header[4]&0x1F;
@@ -136,7 +143,7 @@ public class H264Packetizer extends AbstractPacketizer implements Runnable {
 		// Updates the timestamp
 		ts += delay;
 
-		//Log.d(TAG,"- Nal unit length: " + naluLength + " delay: "+delay/1000000+" type: "+type);
+//		Log.d(TAG,"- Nal unit length: " + naluLength + " delay: "+delay/1000000+" type: "+type);
 
 		// Small NAL unit => Single NAL unit 
 		if (naluLength<=MAXPACKETSIZE-rtphl-2) {
@@ -146,9 +153,9 @@ public class H264Packetizer extends AbstractPacketizer implements Runnable {
 			socket.updateTimestamp(ts);
 			socket.markNextPacket();
 			super.send(naluLength+rtphl);
-			//Log.d(TAG,"----- Single NAL unit - len:"+len+" delay: "+delay);
+//			Log.d(TAG,"----- Single NAL unit - len:"+len+" delay: "+delay);
 		}
-		// Large NAL unit => Split nal unit 
+		// Large NAL unit => Split nal unit
 		else {
 
 			// Set FU-A header
@@ -173,7 +180,7 @@ public class H264Packetizer extends AbstractPacketizer implements Runnable {
 				super.send(len+rtphl+2);
 				// Switch start bit
 				header[1] = (byte) (header[1] & 0x7F); 
-				//Log.d(TAG,"----- FU-A unit, sum:"+sum);
+//				Log.d(TAG,"----- FU-A unit, sum:"+sum);
 			}
 		}
 	}
@@ -193,11 +200,11 @@ public class H264Packetizer extends AbstractPacketizer implements Runnable {
 
 	}
 
-	private void resync() throws IOException {
+	private byte[] resync() throws IOException {
 		byte[] header = new byte[5];
 		int type;
 
-		Log.e(TAG,"Packetizer out of sync ! Let's try to fix that...");
+//		Log.e(TAG,"Packetizer out of sync ! Let's try to fix that...");
 		
 		while (true) {
 
@@ -213,8 +220,8 @@ public class H264Packetizer extends AbstractPacketizer implements Runnable {
 				naluLength = header[3]&0xFF | (header[2]&0xFF)<<8 | (header[1]&0xFF)<<16 | (header[0]&0xFF)<<24;
 				if (naluLength>0 && naluLength<100000) {
 					oldtime = System.nanoTime();
-					Log.e(TAG,"A NAL unit may have been found in the bit stream !");
-					break;
+//					Log.e(TAG,"A NAL unit may have been found in the bit stream !");
+					return header;
 				}
 			}
 

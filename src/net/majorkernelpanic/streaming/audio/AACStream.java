@@ -20,18 +20,19 @@
 
 package net.majorkernelpanic.streaming.audio;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.lang.reflect.Field;
-
-import net.majorkernelpanic.streaming.rtp.AACADTSPacketizer;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
+
+import net.majorkernelpanic.streaming.rtp.AACADTSPacketizer;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.lang.reflect.Field;
 
 /**
  * A class for streaming AAC from the microphone of an android device using RTP.
@@ -178,7 +179,7 @@ public class AACStream extends AudioStream {
 		mMediaRecorder.setAudioSource(mAudioSource);
 		mMediaRecorder.setOutputFormat(mOutputFormat);
 		mMediaRecorder.setAudioEncoder(mAudioEncoder);
-		mMediaRecorder.setAudioChannels(1);
+		mMediaRecorder.setAudioChannels(2);
 		mMediaRecorder.setAudioSamplingRate(mQuality.samplingRate);
 		mMediaRecorder.setAudioEncodingBitRate(mQuality.bitRate);
 		mMediaRecorder.setOutputFile(TESTFILE);

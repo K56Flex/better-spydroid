@@ -20,15 +20,14 @@
 
 package net.majorkernelpanic.streaming.rtp;
 
+import android.os.SystemClock;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-
-import android.os.SystemClock;
-import android.util.Log;
 
 /**
  * A basic implementation of an RTP socket.

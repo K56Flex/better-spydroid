@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/mp4parser-read-only" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mp4parser-read-only/examples" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mp4parser-read-only/isoparser" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mp4parser-read-only/tools" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mp4parser-read-only/tools/isoviewer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mp4parser-read-only/tools/mp4-inspector" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mp4parser-read-only/tools/smooth-streaming-downloader" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mp4parser-read-only/tools/smooth-streaming-fragmenter" charset="UTF-8" />
+  </component>
+</project>
+
